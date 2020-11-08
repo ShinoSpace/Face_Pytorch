@@ -48,6 +48,7 @@ class ArcMarginProduct(nn.Module):
         #one_hot = torch.zeros(cosine.size(), device='cuda' if torch.cuda.is_available() else 'cpu')
         one_hot = torch.zeros_like(cosine)
         one_hot.scatter_(1, label.view(-1, 1), 1)
+        # 直接将真实类别赋值为cos(θ + m)是不可导的inplace操作。借助label完成类似于re-parameterize的操作。
         output = (one_hot * phi) + ((1.0 - one_hot) * cosine)   # [[cos(θ_1), cos(θ_2), ..., cos(θ_i + m), ...](1st sample, assume i-th class is the real class), ...]
         output = output * self.s
 
