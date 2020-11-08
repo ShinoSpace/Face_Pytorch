@@ -43,7 +43,7 @@ class ArcMarginProduct(nn.Module):
         if self.easy_margin:
             phi = torch.where(cosine > 0, phi, cosine)
         else:
-            phi = torch.where((cosine - self.th) > 0, phi, cosine - self.mm)
+            phi = torch.where((cosine - self.th) > 0, phi, cosine - self.mm)        # when θ is not in [0, pi - m], use cosine face instead(in doubt)
 
         #one_hot = torch.zeros(cosine.size(), device='cuda' if torch.cuda.is_available() else 'cpu')
         one_hot = torch.zeros_like(cosine)
